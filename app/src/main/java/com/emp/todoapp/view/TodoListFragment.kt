@@ -15,8 +15,14 @@ import com.emp.todoapp.viewmodel.ListViewTodoModel
 
 class TodoListFragment : Fragment() {
     private lateinit var binding: FragmentTodoListBinding
+    private val todoListAdapter  = TodoListAdapter(arrayListOf(), { item -> viewModel.clearTask(item) })
+
     private lateinit var viewModel:ListViewTodoModel
+
+//    private lateinit var viewModel:ListViewTodoModel
 //    private val todoListAdapter  = TodoListAdapter(arrayListOf())
+//    private lateinit var binding:FragmentTodoListBinding
+
 
 
     override fun onCreateView(
@@ -32,13 +38,13 @@ class TodoListFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(ListViewTodoModel::class.java)
         viewModel.refresh()
-//        binding.recViewTodo.layoutManager = LinearLayoutManager(context)
-//        binding.recViewTodo.adapter = todoListAdapter
+        binding.recViewTodo.layoutManager = LinearLayoutManager(context)
+        binding.recViewTodo.adapter = todoListAdapter
 
-//        binding.btnFAB.setOnClickListener {
-//            val action = TodoListFragmentDirections.ActionCreateTodo()
-//            Navigation.findNavController(it).navigate(action)
-//        }
+        binding.btnFAB.setOnClickListener {
+            val action = TodoListFragmentDirections.ActionCreateTodo()
+            Navigation.findNavController(it).navigate(action)
+        }
 
         observeViewModel()
 
@@ -46,39 +52,39 @@ class TodoListFragment : Fragment() {
     }
     fun observeViewModel() {
 
-//        viewModel.todoLD.observe(viewLifecycleOwner, Observer {
+        viewModel.todoLD.observe(viewLifecycleOwner, Observer {
+            todoListAdapter.updateTodoList(it)
+            if (it.isEmpty()){
+                binding.recViewTodo?.visibility = View.GONE
+                binding.txtEror.setText("Your Todo Still Empty")
+            }else{
+                binding.recViewTodo?.visibility =View.VISIBLE
+            }
+        })
+        viewModel.loadingLD.observe(viewLifecycleOwner, Observer {
+            if(it == false) {
+                binding.progressLoad?.visibility = View.GONE
+            } else {
+                binding.progressLoad?.visibility = View.VISIBLE
+            }
+        })
+        viewModel.todoLoadErrorLD.observe(viewLifecycleOwner, Observer {
+            if(it == false) {
+                binding.txtEror?.visibility = View.GONE
+            } else {
+                binding.txtEror?.visibility = View.VISIBLE
+            }
+        })
+
+
+//        viewModel.todoLD.observe(viewLifecycleOwner,Ob{
 //            todoListAdapter.updateTodoList(it)
-//            if (it.isEmpty()){
+//            if(it.isEmpty()) {
 //                binding.recViewTodo?.visibility = View.GONE
-//                binding.txtEror.setText("Your Todo Still Empty")
-//            }else{
-//                binding.recViewTodo?.visibility =View.VISIBLE
-//            }
-//        })
-//        viewModel.loadingLD.observe(viewLifecycleOwner, Observer {
-//            if(it == false) {
-//                binding.progressLoad?.visibility = View.GONE
+//                binding.txtEror.setText(“Your todo still empty.”)
 //            } else {
-//                binding.progressLoad?.visibility = View.VISIBLE
+//                binding.recViewTodo?.visibility = View.VISIBLE
 //            }
-//        })
-//        viewModel.todoLoadErrorLD.observe(viewLifecycleOwner, Observer {
-//            if(it == false) {
-//                binding.txtEror?.visibility = View.GONE
-//            } else {
-//                binding.txtEror?.visibility = View.VISIBLE
-//            }
-//        })
-//
-//
-////        viewModel.todoLD.observe(viewLifecycleOwner,Ob{
-////            todoListAdapter.updateTodoList(it)
-////            if(it.isEmpty()) {
-////                binding.recViewTodo?.visibility = View.GONE
-////                binding.txtEror.setText(“Your todo still empty.”)
-////            } else {
-////                binding.recViewTodo?.visibility = View.VISIBLE
-////            }
 ////        })
     }
 

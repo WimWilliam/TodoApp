@@ -2,6 +2,7 @@ package com.emp.todoapp.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.emp.todoapp.databinding.TodoItemLayoutBinding
 import com.emp.todoapp.model.Todo
@@ -11,6 +12,9 @@ class TodoListAdapter (val todoList:ArrayList<Todo>,
 RecyclerView.Adapter<TodoListAdapter.TodoViewHolder>()
 
 {
+
+
+
     class TodoViewHolder(var binding:TodoItemLayoutBinding):
             RecyclerView.ViewHolder(binding.root)
 
@@ -34,7 +38,15 @@ RecyclerView.Adapter<TodoListAdapter.TodoViewHolder>()
             adapterOnClick(todoList[position])
             }
         }
+
+        holder.binding.imageButton.setOnClickListener {
+        val action =
+            TodoListFragmentDirections.actionEditTodoFragment(todoList[position].uuid)
+
+        Navigation.findNavController(it).navigate(action)
     }
+
+}
 
 
     override fun getItemCount(): Int {
