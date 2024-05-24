@@ -16,21 +16,17 @@ import com.emp.todoapp.viewmodel.ListViewTodoModel
 class TodoListFragment : Fragment() {
     private lateinit var binding: FragmentTodoListBinding
     private val todoListAdapter  = TodoListAdapter(arrayListOf(), { item -> viewModel.clearTask(item) })
-
     private lateinit var viewModel:ListViewTodoModel
-
-//    private lateinit var viewModel:ListViewTodoModel
-//    private val todoListAdapter  = TodoListAdapter(arrayListOf())
-//    private lateinit var binding:FragmentTodoListBinding
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_todo_list, container, false)
+        binding = FragmentTodoListBinding.inflate(inflater, container, false)
+        return  binding.root
+
+//        return inflater.inflate(R.layout.fragment_todo_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,6 +34,7 @@ class TodoListFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(ListViewTodoModel::class.java)
         viewModel.refresh()
+
         binding.recViewTodo.layoutManager = LinearLayoutManager(context)
         binding.recViewTodo.adapter = todoListAdapter
 
@@ -77,15 +74,7 @@ class TodoListFragment : Fragment() {
         })
 
 
-//        viewModel.todoLD.observe(viewLifecycleOwner,Ob{
-//            todoListAdapter.updateTodoList(it)
-//            if(it.isEmpty()) {
-//                binding.recViewTodo?.visibility = View.GONE
-//                binding.txtEror.setText(“Your todo still empty.”)
-//            } else {
-//                binding.recViewTodo?.visibility = View.VISIBLE
-//            }
-////        })
+
     }
 
 }

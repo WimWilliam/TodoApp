@@ -26,7 +26,9 @@ class CreateTodoAppFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_todo_app, container, false)
+        binding = FragmentCreateTodoAppBinding.inflate(inflater,container,false)
+        return binding.root
+//        return inflater.inflate(R.layout.fragment_create_todo_app, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,18 +36,6 @@ class CreateTodoAppFragment : Fragment() {
 
         viewModel =
             ViewModelProvider(this).get(DetailTodoViewModel::class.java)
-
-//        binding.btnAdd.setOnClickListener {
-//            var todo = Todo(
-//                binding.txtInputTodoTitle.text.toString(),
-//                binding.txtInputNotes.text.toString()
-//            )
-//            val list = listOf(todo)
-//            viewModel.addTodo(list)
-//            Toast.makeText(view.context, "Data added", Toast.LENGTH_LONG).show()
-//            Navigation.findNavController(it).popBackStack()
-//        }
-
 
         binding.btnAdd.setOnClickListener {
 
@@ -65,11 +55,4 @@ class CreateTodoAppFragment : Fragment() {
             Navigation.findNavController(it).popBackStack()
         }
     }
-
-
-
-
-
-
-
 }

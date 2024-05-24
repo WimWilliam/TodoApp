@@ -16,13 +16,14 @@ class DetailTodoViewModel(application: Application):
 AndroidViewModel(application),CoroutineScope
 {
     val todoLD = MutableLiveData<Todo>()
+    val db = buildDb(getApplication())
     private val job = Job()
     fun addTodo(list:List<Todo>){
         launch {
-//            val db = TodoDatabase.buildDatabase(
-//                getApplication()
-//            )
-            val db = buildDb(getApplication())
+            val db = TodoDatabase.buildDatabase(
+                getApplication()
+            )
+//            val db = buildDb(getApplication())
 
 
             db.todoDao().insertAll(*list.toTypedArray())
